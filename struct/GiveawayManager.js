@@ -179,9 +179,11 @@ class GiveawayManager {
             reason = "messages"
         }
 
-        return {
-            passed: passed,
-            reason: reason
+        if (!passed) {
+            await reaction.users.remove(user)
+            user.send(`ENTRY DENIED!\nMissing requirement: ${reason}`)
+        } else {
+            user.send("ENTRY ACCEPTED")
         }
     }
 
