@@ -215,12 +215,9 @@ class GiveawayManager {
             .filter(c => !c.bot)
             .random(reGiveaway.winners)
 
-        console.log(winners)
-
         let embed = await this.generateEndEmbed(this.options.endEmbed, reGiveaway, winners)
 
         let embedWinners = this.generateMentions(winners)
-        console.log(embedWinners)
         let endMsg = embedWinners ? this.options.winMsg
             .replace(/\{winner\}/g, this.generateMentions(winners))
             .replace(/\{prize}/g, `**${reGiveaway.prize}**`)
@@ -239,7 +236,7 @@ class GiveawayManager {
     checkGiveaways() {
         setInterval(() => {
             let giveaways = this.giveaways.filter((v, key) => key.startsWith(`giveaways`))
-            if (!giveaways) return console.log("no giveaways")
+            if (!giveaways) return;
 
             giveaways.forEach(c => {
                 if (c.endDate < Date.now()) {
