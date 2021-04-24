@@ -14,9 +14,9 @@ module.exports = class Giveaway {
         this.guild = options.guildID
         this.ended = false
 
-        this.reqGuild = undefined
-        this.reqMessage = undefined
-        this.reqRole = undefined
+        this.reqGuild = options.reqGuild
+        this.reqMessage = options.reqMessage
+        this.reqRole = options.reqRole
     }
 
     get getURL() {
