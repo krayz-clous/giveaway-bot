@@ -175,7 +175,7 @@ class GiveawayManager {
         } else if (giveaway.reqMessage) {
             let userMessages = messages.get(user.id)
 
-            if (userMessages < giveaway.reqMessages) passed = false
+            if (userMessages < giveaway.reqMessage) passed = false
             reason = "messages"
         }
 
