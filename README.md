@@ -1,6 +1,6 @@
-# Giveaway Bot
+# 🎉 Giveaway Bot
 
-🎉 A giveaway bot that saves giveaways and has requirements
+A giveaway bot that saves giveaways and has requirements
 
 Usage | Example
 ----- | -------
