@@ -301,21 +301,6 @@ class GiveawayManager {
         this.giveaways.delete(`giveaways_${giveaway.guild}_${giveaway.message}`)
     }
 
-    /**
-     * 
-     * @param {Giveaway} giveaway 
-     */
-
-    async updateGiveaway(giveaway) {
-        let guild = this.client.guilds.cache.get(giveaway.guild)
-        let channels = guild.channels.cache.get(giveaway.channel)
-        let giveawayMessage = await channels.messages.fetch(giveaway.message)
-
-        let embed = giveawayMessage.embeds[0]
-        let content = Object.keys(embed).map(c => c.join(" "))
-
-    }
-
     /** 
      * @param {MessageEmbed} embedData
      * @param {Giveaway} giveaway
