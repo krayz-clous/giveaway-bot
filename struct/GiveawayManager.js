@@ -155,33 +155,36 @@ class GiveawayManager {
         let giveaway = this.giveaways.get(`giveaways_${message.guild.id}_${message.id}`)
         if (!giveaway) return;
         let passed = true
-        let reason = undefined
+        let reason = []
         if (giveaway.reqGuild) {
             let guild = this.client.guilds.cache.get(giveaway.reqGuild)
             if (!guild) return;
-            let member = await guild.members.fetch(user.id)
-            if (!member) {
-                passed = false
-                reason = "guild"
-            }
 
-        } else if (giveaway.reqRole) {
+            try {
+                await guild.members.fetch(user.id)
+            } catch (e) {
+                passed = false
+                reason.push("guild")
+            }
+        }
+        if (giveaway.reqRole) {
             let guild = message.guild
             let member = await guild.members.fetch(user.id)
-            if (!member.roles.cache.has(giveaway.reqRole.id)) {
+            if (!member.roles.cache.has(giveaway.reqRole)) {
                 passed = false
-                reason = "role"
+                reason.push("role")
             }
-        } else if (giveaway.reqMessage) {
+        }
+        if (giveaway.reqMessage) {
             let userMessages = messages.get(user.id)
 
             if (userMessages < giveaway.reqMessage) passed = false
-            reason = "messages"
+            reason.push("messages")
         }
 
         if (!passed) {
             await reaction.users.remove(user)
-            user.send(`ENTRY DENIED!\nMissing requirement: ${reason}`)
+            user.send(`ENTRY DENIED!\nMissing requirement: ${reason.join(", ")}`)
         } else {
             user.send("ENTRY ACCEPTED")
         }
@@ -254,13 +257,11 @@ class GiveawayManager {
     endAllGiveaways(giveaways) {
         giveaways.forEach(async c => {
             if (c.ended) {
-
                 let guild = this.client.guilds.cache.get(c.guild)
                 let channel = guild.channels.cache.get(c.channel)
                 let message = await channel.messages.fetch(c.message)
 
                 await this.end(message, c)
-
             }
         })
     }
@@ -298,6 +299,21 @@ class GiveawayManager {
         channel.send(endMsg)
 
         this.giveaways.delete(`giveaways_${giveaway.guild}_${giveaway.message}`)
+    }
+
+    /**
+     * 
+     * @param {Giveaway} giveaway 
+     */
+
+    async updateGiveaway(giveaway) {
+        let guild = this.client.guilds.cache.get(giveaway.guild)
+        let channels = guild.channels.cache.get(giveaway.channel)
+        let giveawayMessage = await channels.messages.fetch(giveaway.message)
+
+        let embed = giveawayMessage.embeds[0]
+        let content = Object.keys(embed).map(c => c.join(" "))
+
     }
 
     /** 
