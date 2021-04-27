@@ -168,7 +168,7 @@ class GiveawayManager {
         } else if (giveaway.reqRole) {
             let guild = message.guild
             let member = await guild.members.fetch(user.id)
-            if (!member.roles.cache.has(giveaway.reqRole.id)) {
+            if (!member.roles.cache.has(giveaway.reqRole)) {
                 passed = false
                 reason = "role"
             }
